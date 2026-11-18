@@ -1,0 +1,10 @@
+import Link from "next/link";
+
+export const metadata = { title: "قصتنا | المدار" };
+
+export default function AboutPage() {
+  return <><section className="about-hero"><div className="about-hero-copy"><span className="eyebrow">من نحن</span><h1>المدار — فخامة التفاصيل.</h1><p>علامة رجالية تنطلق من قناعة بسيطة: الأناقة الحقيقية تظهر في التفاصيل التي تختارها لنفسك.</p></div></section>
+    <section className="section about-copy"><h2>نصنع تجربة تشبه حضورك، من أول اختيار حتى آخر تفصيل.</h2><div><p>المدار علامة رجالية تهتم بتقديم تجربة متناسقة تجمع بين أناقة الثوب ووضوح الاختيار وهوية بصرية تعبّر عن شخصية العلامة.</p><p>نؤمن أن التسوق الجيد يبدأ بمعلومات واضحة: خيارات المنتج، المقاس، السعر، وتفاصيل الطلب. لذلك نبني تجربة تساعدك على الوصول إلى ما يناسبك بهدوء وثقة.</p><Link className="text-link" href="/shop">اكتشف مجموعة المدار <span aria-hidden="true">←</span></Link></div></section>
+    <section className="section section-tight" id="packaging"><div className="packaging-panel"><div className="packaging-image" role="img" aria-label="ثوب سعودي بتفاصيله" /><div className="packaging-copy"><span className="eyebrow">تجربة المدار</span><h2>التفاصيل لا تتوقف عند الثوب.</h2><p>تجربة التغليف ما زالت قيد التصميم. نضيف صور العلبة الحقيقية بعد اعتمادها، حتى تعكس ما سيصل إلى العميل بدقة.</p></div></div></section>
+    <section className="promise-band"><div className="section"><div className="section-heading"><div><span className="eyebrow">معلومات تهمك</span><h2>قبل أن تطلب</h2></div></div><div className="promise-grid"><article className="promise-item" id="faq"><span className="promise-number">01</span><h3>المقاسات</h3><p>دليل المقاسات وتفاصيل القياس ستضاف بعد اعتماد جدول المقاسات النهائي.</p></article><article className="promise-item" id="policies"><span className="promise-number">02</span><h3>الشحن والاستبدال</h3><p>تفاصيل مناطق الشحن والرسوم وسياسة الاستبدال تُنشر بعد اعتمادها رسميًا.</p></article><article className="promise-item" id="contact"><span className="promise-number">03</span><h3>تواصل معنا</h3><p>قنوات التواصل الرسمية ستضاف عند تجهيز رقم خدمة العملاء والبريد المعتمد.</p></article></div></div></section></>;
+}
