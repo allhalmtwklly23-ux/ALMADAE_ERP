@@ -684,6 +684,49 @@ export async function listDatabaseUsers() {
   return ((data ?? []) as DatabaseUserRow[]).map((row) => sanitizeUser(mapDatabaseUser(row)));
 }
 
+export async function resetBootstrapAdminPassword(newPassword: string) {
+  if (newPassword.length < 12) throw new Error("كلمة المرور الجديدة يجب ألا تقل عن 12 خانة.");
+  const { data: user, error: userError } = await database()
+    .from("erp_users")
+    .select("id,username,role")
+    .eq("company_id", companyId())
+    .eq("username_normalized", "a123")
+    .eq("active", true)
+    .maybeSingle();
+  throwDatabaseError(userError, "Failed to locate the bootstrap administrator");
+  if (!user || user.role !== "super_admin") throw new Error("حساب المدير الرئيسي غير موجود أو غير نشط.");
+
+  const now = new Date().toISOString();
+  const { error: updateError } = await database()
+    .from("erp_users")
+    .update({
+      password_hash: hashPassword(newPassword),
+      must_change_password: true,
+      failed_login_attempts: 0,
+      last_failed_login_at: null,
+      updated_at: now,
+    })
+    .eq("company_id", companyId())
+    .eq("id", user.id);
+  throwDatabaseError(updateError, "Failed to reset administrator password");
+
+  const { error: sessionsError } = await database()
+    .from("erp_sessions")
+    .delete()
+    .eq("company_id", companyId())
+    .eq("user_id", user.id);
+  throwDatabaseError(sessionsError, "Failed to revoke administrator sessions");
+
+  await writeAuditLog({
+    action: "administrator_password_reset",
+    module: "security",
+    actorUserId: user.id,
+    actorUsername: user.username,
+    details: { userId: user.id, method: "temporary_env_token" },
+  });
+  return true;
+}
+
 async function ensureBootstrapAdmin() {
   const { data, error } = await database()
     .from("erp_users")
