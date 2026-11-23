@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import crypto from "node:crypto";
 import { getPersistenceMode, resetBootstrapAdminPassword } from "@/lib/erp/database";
 
-export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const attempts = new Map<string, { count: number; until: number }>();
